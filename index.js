@@ -82,24 +82,21 @@ function tick( matrix, size ) {
     }
 
     // Set others in previous left cell and update my others
-    const prevCellIndex = ( index - 1 )
+    // Only when not on first column
+    if ( index % size !== 0 ) {
 
-    _updateCell( cellState, index, prevCellIndex, cellsRecords )
+      _updateCell( cellState, index, ( index - 1 ), cellsRecords )
+
+    }
 
     // Set others in previous top cell
-    const topCellIndex = ( index - size )
-
-    _updateCell( cellState, index, topCellIndex, cellsRecords )
+    _updateCell( cellState, index, ( index - size ), cellsRecords )
 
     // Set others in previous top left cell
-    const topLeftCellIndex = ( index - size - 1 )
-
-    _updateCell( cellState, index, topLeftCellIndex, cellsRecords )
+    _updateCell( cellState, index, ( index - size - 1 ), cellsRecords )
 
     // Set others in previous top right cell
-    const topRightCellIndex = ( index - size + 1 )
-
-    _updateCell( cellState, index, topRightCellIndex, cellsRecords )
+    _updateCell( cellState, index, ( index - size + 1 ), cellsRecords )
 
   } )
 
