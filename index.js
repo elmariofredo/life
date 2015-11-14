@@ -44,7 +44,6 @@ let matrixSate = matrix
 
 const refreshRate = 90
 
-// console.log( render( tick( matrixSate, matrixSize ), matrixSize ) )
 runner()
 
 function runner() {
@@ -57,24 +56,10 @@ function runner() {
 
 function printPeriod() {
 
-
   clear()
 
   matrixSate = tick( matrixSate, matrixSize )
   console.log( render( matrixSate, matrixSize ) )
-
-  const debugCellPosition = ( matrixSize * 26 ) + 0
-
-  const debugCell = matrixSate[debugCellPosition]
-
-  console.log('x', debugCellPosition, debugCell);
-  // nextMatrixState[debugCellPosition] = 1
-
-  if ( debugCell ) {
-
-    process.exit(0)
-
-  }
 
 }
 
@@ -96,54 +81,40 @@ function tick( matrix, size ) {
 
     }
 
-
-
     // Set others in previous left cell and update my others
     const prevCellIndex = ( index - 1 )
 
-    if ( prevCellIndex >= 0 ) {
-
-      cellsRecords[ prevCellIndex ].others += cellState
-
-      cellsRecords[ index ].others += cellsRecords[ prevCellIndex ].state
-
-    }
+    _updateCell( cellState, index, prevCellIndex, cellsRecords )
 
     // Set others in previous top cell
     const topCellIndex = ( index - size )
 
-    if ( topCellIndex >= 0 ) {
-
-      cellsRecords[ topCellIndex ].others += cellState
-
-      cellsRecords[ index ].others += cellsRecords[ topCellIndex ].state
-
-    }
+    _updateCell( cellState, index, topCellIndex, cellsRecords )
 
     // Set others in previous top left cell
     const topLeftCellIndex = ( index - size - 1 )
 
-    if ( topLeftCellIndex >= 0 ) {
-
-      cellsRecords[ topLeftCellIndex ].others += cellState
-
-      cellsRecords[ index ].others += cellsRecords[ topLeftCellIndex ].state
-
-    }
+    _updateCell( cellState, index, topLeftCellIndex, cellsRecords )
 
     // Set others in previous top right cell
     const topRightCellIndex = ( index - size + 1 )
 
-    if ( topRightCellIndex >= 0 ) {
+    _updateCell( cellState, index, topRightCellIndex, cellsRecords )
 
-      cellsRecords[ topRightCellIndex ].others += cellState
+  } )
 
-      cellsRecords[ index ].others += cellsRecords[ topRightCellIndex ].state
+  function _updateCell( cellState, cellIndex, otherCellIndex, cellsRecords ) {
+
+    if ( otherCellIndex >= 0 ) {
+
+      // cellsRecords[ otherCellIndex ].others += cellState * 2
+      cellsRecords[ otherCellIndex ].others += cellState
+
+      cellsRecords[ cellIndex ].others += cellsRecords[ otherCellIndex ].state
 
     }
 
-
-  } )
+  }
 
 
   const nextMatrixState = _tranformRecordsToMatrix( cellsRecords, size )
