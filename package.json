@@ -1,11 +1,14 @@
 {
-  "name": "life",
+  "name": "@elmariofredo/life",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "test": "ava"
+    "test": "ava",
+    "docker:build": "soos -b",
+    "docker:start": "soos",
+    "docker:shell": "soos -c bash"
   },
   "engines": {
     "node": "5.0.0",
